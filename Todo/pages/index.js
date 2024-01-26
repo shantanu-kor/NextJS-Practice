@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { MongoClient } from "mongodb";
 import TodoForm from "../components/TodoForm";
 import TodoList from "../components/TodoList";
+import Link from "next/link";
 
 function HomePage(props) {
     async function submitHandler(todo) {
@@ -42,6 +43,7 @@ function HomePage(props) {
         <Fragment>
             <TodoForm onSubmitForm={submitHandler} />
             <TodoList todos={props.todos} completeHandler={setCompleteHandler} deleteHandler={deleteHandler} />
+            <Link href='/completed'>Completed Tasks</Link>
         </Fragment>
     )
 };
