@@ -33,6 +33,22 @@ async function handler(req, res) {
 
         res.status(200).json(result);
     }
+    else if(req.method === 'DELETE') {
+        
+        const { id } = req.body;
+        const client = await MongoClient.connect('mongodb+srv://Shantanu:<password>@cluster0.s43psut.mongodb.net/todos?retryWrites=true&w=majority')
+        const db = client.db();
+
+        const todosCollection = db.collection('todos');
+
+        const result = await todosCollection.deleteOne(
+            { _id: new ObjectId(id) },
+        );
+
+        client.close();
+
+        res.status(200).json(result);
+    }
 };
 
 export default handler;

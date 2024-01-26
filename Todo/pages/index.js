@@ -28,10 +28,20 @@ function HomePage(props) {
         })
     };
 
+    async function deleteHandler(id) {
+        const response = await fetch('/api/new-todo', {
+            method: 'DELETE',
+            body: JSON.stringify({ id }),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+    };
+
     return (
         <Fragment>
             <TodoForm onSubmitForm={submitHandler} />
-            <TodoList todos={props.todos} completeHandler={setCompleteHandler} />
+            <TodoList todos={props.todos} completeHandler={setCompleteHandler} deleteHandler={deleteHandler} />
         </Fragment>
     )
 };
