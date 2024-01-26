@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 
 
 async function handler(req, res) {
@@ -8,14 +8,30 @@ async function handler(req, res) {
         const client = await MongoClient.connect('mongodb+srv://Shantanu:<password>@cluster0.s43psut.mongodb.net/todos?retryWrites=true&w=majority')
         const db = client.db();
 
-        const meetupsCollection = db.collection('todos');
-        const result = await meetupsCollection.insertOne(data);
+        const todosCollection = db.collection('todos');
+        const result = await todosCollection.insertOne(data);
 
         console.log(result);
 
         client.close();
 
         res.status(201).json({ message: 'Todo inserted!' });
+    }
+    else if (req.method === 'PUT') {
+        const { id, todo, completed } = req.body;
+        const client = await MongoClient.connect('mongodb+srv://Shantanu:<password>@cluster0.s43psut.mongodb.net/todos?retryWrites=true&w=majority')
+        const db = client.db();
+
+        const todosCollection = db.collection('todos');
+
+        const result = await todosCollection.updateOne(
+            { _id: new ObjectId(id) },
+            { $set: { todo, completed } }
+        );
+
+        client.close();
+
+        res.status(200).json(result);
     }
 };
 

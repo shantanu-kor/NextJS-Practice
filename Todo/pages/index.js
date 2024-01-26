@@ -18,10 +18,20 @@ function HomePage(props) {
         console.log(data);
     };
 
+    async function setCompleteHandler(id, todo) {
+        const response = await fetch('/api/new-todo', {
+            method: 'PUT',
+            body: JSON.stringify({ todo, id, completed: true }),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+    };
+
     return (
         <Fragment>
             <TodoForm onSubmitForm={submitHandler} />
-            <TodoList todos={props.todos} />
+            <TodoList todos={props.todos} completeHandler={setCompleteHandler} />
         </Fragment>
     )
 };
